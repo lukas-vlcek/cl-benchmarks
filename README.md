@@ -1,5 +1,3 @@
-# perf-tests
-
 Use the following command for local development:
 
 ````
