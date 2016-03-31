@@ -7,11 +7,12 @@ layout: main
 <small>Last generated: {{ site.time | date_to_rfc822 }}</small>
 
 <p>
-    <h2>Simple test</h2>
+    <h2>Performance test operations</h2>
     <p>
-        Some explanation. Lorem ipsum dolores. This automatic page generator is the easiest way to create beautiful pages for all of your projects.
+        This tests for raw .operations index performance - write a bunch of messages
+        to the system log and see how long it takes all of them to show up in ES.
     </p>
-    <p>Source: <a href="https://github.com/openshift/origin-aggregated-logging/blob/master/hack/testing/test-es-copy.sh">test-es-copy.sh</a></p>
+    <p>Source: <a href="https://github.com/lukas-vlcek/origin-aggregated-logging/blob/perf-test/hack/testing/perf-test-operations.sh">perf-test-operations.sh</a></p>
     <div id="chart" class="chart"></div>
 </p>
 
