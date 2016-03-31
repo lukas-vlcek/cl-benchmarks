@@ -1,23 +1,18 @@
 ---
-layout: default
+layout: main
 ---
 
-<div class="home">
+<h1>Daily and Pull-Request Benchmarks</h1>
 
-  <h1 class="page-heading">Posts</h1>
+<small>Last generated: ${getDate()}</small>
 
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
-</div>
+<p>
+    <h2>Simple test</h2>
+    <p>
+        Some explanation. Lorem ipsum dolores. This automatic page generator is the easiest way to create beautiful pages for all of your projects.
+    </p>
+    <p>Source: <a href="https://github.com/openshift/origin-aggregated-logging/blob/master/hack/testing/test-es-copy.sh">test-es-copy.sh</a></p>
+    <p class="chart">
+        Chart here
+    </p>
+</p>
