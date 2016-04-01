@@ -7,16 +7,12 @@ layout: main
 <small>Last generated: {{ site.time | date_to_rfc822 }}</small>
 
 <p>
-    {% assign coll = site.collections %}
-    {{ coll.size }}
-    {{ coll }}
+    {% for c in site.collections %}
+      {{ c.label }}, {{ c.output }}, {{ c.directory }}, {{ c.files }} <br>
+    {% endfor %}
 </p>
-<p>
-    {% assign coll = site.data %}
-    {{ coll.size }}
-    {{ coll }}
-</p>
-<p>{{ site.data }}</p>
+<hr>
+<p>{{ site.data["tests_metadata"] }}</p>
 <p>{{ site.data["tests"] }}</p>
 
 {% for test_key in site.data["tests"] %}
