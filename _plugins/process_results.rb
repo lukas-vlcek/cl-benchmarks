@@ -12,6 +12,7 @@ module Jekyll
       # end
 
       results = site.collections["results"]
+      site.data["results"] = results
       first_file = results.files.first.path
       path = Pathname.new(first_file).dirname
 

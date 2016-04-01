@@ -6,6 +6,16 @@ layout: main
 
 <small>Last generated: {{ site.time | date_to_rfc822 }}</small>
 
+<p>
+    {% assign coll = site.collections %}
+    {{ coll.size }}
+    {{ coll }}
+</p>
+<p>
+    {% assign coll = site.data %}
+    {{ coll.size }}
+    {{ coll }}
+</p>
 <p>{{ site.data }}</p>
 <p>{{ site.data["tests"] }}</p>
 
