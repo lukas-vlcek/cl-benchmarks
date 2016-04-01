@@ -6,6 +6,9 @@ layout: main
 
 <small>Last generated: {{ site.time | date_to_rfc822 }}</small>
 
+<p>{{ site.data }}</p>
+<p>{{ site.data["tests"] }}</p>
+
 {% for test_key in site.data["tests"] %}
     {% assign metadata_code = test_key[1]["code"] %}
     {% assign metadata = site.data["tests_metadata"][metadata_code] %}
