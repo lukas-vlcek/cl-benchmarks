@@ -6,14 +6,22 @@ layout: main
 
 <small>Last generated: {{ site.time | date_to_rfc822 }}</small>
 
-<p>
-    <h2>Performance test operations</h2>
+{% for test_key in site.data["tests"] %}
+    {% assign metadata_code = test_key[1]["code"] %}
+    {% assign metadata = site.data["tests_metadata"][metadata_code] %}
     <p>
-        This tests for raw .operations index performance - write a bunch of messages
-        to the system log and see how long it takes all of them to show up in ES.
+        <h2>{{ metadata["display_name"] }}</h2>
+        <p>{{ metadata["description"] }}</p>
+
+        {% if metadata["source_url"] %}
+            <p>Source: <a href="{{ metadata["source_url"] }}">{{ metadata["source_url"] }}</a></p>
+        {% endif %}
+
+        {% if metadata["chart_enabled"] %}
+            <div id="chart" class="chart"></div>
+        {% endif %}
+        <hr>
     </p>
-    <p>Source: <a href="https://github.com/lukas-vlcek/origin-aggregated-logging/blob/perf-test/hack/testing/perf-test-operations.sh">perf-test-operations.sh</a></p>
-    <div id="chart" class="chart"></div>
-</p>
+{% endfor %}
 
 <script src="{{ "/javascript/app.js" | prepend: site.baseurl }}" ></script>
