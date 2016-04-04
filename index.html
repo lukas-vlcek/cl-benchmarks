@@ -6,22 +6,6 @@ layout: main
 
 <small>Last generated: <b>{{ site.time | date_to_rfc822 }}</b></small>
 
-<p>
-    ={{ site.data["xxx"] }}=
-</p>
-<p>
-    {% for c in site.collections %}
-      {{ c.label }}, {{ c.output }}, {{ c.directory }}, {{ c.files }} <br>
-      {% for f in c.files %}
-        <li> {{ f }},
-      {% endfor %}
-      <br>
-    {% endfor %}
-</p>
-<hr>
-<p>{{ site.data["tests_metadata"] }}</p>
-<p>{{ site.data["tests"] }}</p>
-
 {% for test_key in site.data["tests"] %}
     {% assign metadata_code = test_key[1]["code"] %}
     {% assign metadata = site.data["tests_metadata"][metadata_code] %}
