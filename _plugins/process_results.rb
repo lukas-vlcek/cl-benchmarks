@@ -13,6 +13,7 @@ module Jekyll
 
       results = site.collections["results"]
       # site.data["results"] = results
+      site.data["xxx"] = site.collections["results"].files
       first_file = results.files.first.path
       path = Pathname.new(first_file).dirname
 
@@ -41,6 +42,7 @@ module Jekyll
       tests_metadata = site.data["tests_metadata"]
       Jekyll.logger.info "tests_metadata: #{tests_metadata}"
       Jekyll.logger.info "--------"
+      Jekyll.logger.info "=#{ site.data["xxx"] }="
     end
 
   end

@@ -7,6 +7,9 @@ layout: main
 <small>Last generated: <b>{{ site.time | date_to_rfc822 }}</b></small>
 
 <p>
+    ={{ site.data["xxx"] }}=
+</p>
+<p>
     {% for c in site.collections %}
       {{ c.label }}, {{ c.output }}, {{ c.directory }}, {{ c.files }} <br>
       {% for f in c.files %}
