@@ -11,21 +11,13 @@ module Jekyll
       # site.collections.each do |name, collection|
       # end
 
-      results = site.collections["results"]
-      # site.data["results"] = results
-      first_file = results.files.first.path
-      path = Pathname.new(first_file).dirname
-
-      while !(String(path).end_with? "results" || path.root?) do
-        # Jekyll.logger.info "- #{path}"
-        path = path.parent
-      end
+      testNames = getTestNames(site.collections["results"])
 
       # this is the root where we store tests
       tests = site.data["tests"]
 
       # get unique list of performance tests
-      path.children.each do |d|
+      testNames.each do |d|
         test_key = String(d.basename)
         # Jekyll.logger.info "- #{test_key}"
         tests[test_key] = {}
@@ -41,6 +33,21 @@ module Jekyll
       tests_metadata = site.data["tests_metadata"]
       Jekyll.logger.info "tests_metadata: #{tests_metadata}"
       Jekyll.logger.info "--------"
+    end
+
+    ##
+    # Extract distinct names of tests from raw results data.
+    # @results is Jekyll collection where raw results are stored.
+    # @return array of Pathnames each representing the root folder for individual distinct tests
+    #
+    def getTestNames(results)
+      first_file = results.files.first.path
+      path = Pathname.new(first_file).dirname
+
+      while !(String(path).end_with? "results" || path.root?) do
+        path = path.parent
+      end
+      return path.children
     end
 
   end
