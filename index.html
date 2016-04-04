@@ -4,11 +4,15 @@ layout: main
 
 <h1>Pull-Request and Nightly Master Benchmarks</h1>
 
-<small>Last generated: {{ site.time | date_to_rfc822 }}</small>
+<small>Last generated: <b>{{ site.time | date_to_rfc822 }}</b></small>
 
 <p>
     {% for c in site.collections %}
       {{ c.label }}, {{ c.output }}, {{ c.directory }}, {{ c.files }} <br>
+      {% for f in c.files %}
+        <li> {{ f }},
+      {% endfor %}
+      <br>
     {% endfor %}
 </p>
 <hr>
