@@ -38,7 +38,7 @@ module Jekyll
           Jekyll.logger.debug content
           util.dumpFile(aggregation_folder, test_name, content)
         else
-          Jekyll.logger.info "Skipping test #{test_name}, no metadata found..."
+          Jekyll.logger.info "Skipping result data for test #{test_name}, no metadata found..."
         end
       end
 
