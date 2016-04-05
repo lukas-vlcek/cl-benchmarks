@@ -2,6 +2,8 @@
 
 module Jekyll
 
+  RESULTS_FOLDER = "results"
+
   class ResultsGenerator < Generator
     safe true
     # priority :low
@@ -11,7 +13,7 @@ module Jekyll
       # site.collections.each do |name, collection|
       # end
 
-      testNames = getTestNames(site.collections["results"])
+      testNames = getTestNames(site.collections[RESULTS_FOLDER])
 
       # this is the root where we store tests
       tests = site.data["tests"]
@@ -44,7 +46,7 @@ module Jekyll
       first_file = results.files.first.path
       path = Pathname.new(first_file).dirname
 
-      while !(String(path).end_with? "results" || path.root?) do
+      while !(String(path).end_with? RESULTS_FOLDER || path.root?) do
         path = path.parent
       end
       return path.children
