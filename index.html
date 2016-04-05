@@ -13,13 +13,19 @@ layout: main
         <h2>{{ metadata["display_name"] }}</h2>
         <p>{{ metadata["description"] }}</p>
 
-        {% if metadata["source_url"] %}
-            <p>Source: <a href="{{ metadata["source_url"] }}">{{ metadata["source_url"] }}</a></p>
-        {% endif %}
-
         {% if metadata["chart_enabled"] %}
             <div id="chart" class="chart"></div>
         {% endif %}
+
+        <ul>
+        {% if metadata["chart_enabled"] %}
+            <li>Aggregated data source: <a href="{{ "/aggregations" | prepend: site.baseurl }}/{{metadata_code}}.json">{{ metadata_code }}.json</a></li>
+        {% endif %}
+        {% if metadata["source_url"] %}
+            <li>Test script: <a href="{{ metadata["source_url"] }}">{{ metadata["source_url"] }}</a></li>
+        {% endif %}
+        </ul>
+
         <hr>
     </p>
 {% endfor %}
