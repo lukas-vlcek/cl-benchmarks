@@ -23,19 +23,23 @@ module Jekyll
       # get data
       # this is the object where we store found tests
       tests = util.getData "tests"
-      # tests_metadata = util.getData "tests_metadata"
+      tests_metadata = util.getData "tests_metadata"
 
       # get unique list of performance tests
       test_names = util.getTestNames(results_col)
       test_names.each do |t|
         test_name = String(t.basename)
         Jekyll.logger.info "-----------------"
-        Jekyll.logger.info "Processing data for test #{test_name}"
-        tests[test_name] = {}
-        tests[test_name]["code"] = test_name # we must make sure key is string, or Liquid will screw up...
-        content = JSON.pretty_generate(aggregation.calculate(t))
-        Jekyll.logger.debug content
-        util.dumpFile(aggregation_folder, test_name, content)
+        if tests_metadata[test_name]
+          Jekyll.logger.info "Processing data for test #{test_name}"
+          tests[test_name] = {}
+          tests[test_name]["code"] = test_name # we must make sure key is string, or Liquid will screw up...
+          content = JSON.pretty_generate(aggregation.calculate(t))
+          Jekyll.logger.debug content
+          util.dumpFile(aggregation_folder, test_name, content)
+        else
+          Jekyll.logger.info "Skipping test #{test_name}, no metadata found..."
+        end
       end
 
     end

@@ -10,8 +10,8 @@ layout: main
     {% assign metadata_code = test_key[1]["code"] %}
     {% assign metadata = site.data["tests_metadata"][metadata_code] %}
     <p>
-        <h2>{{ metadata["display_name"] }}</h2>
-        <p>{{ metadata["description"] }}</p>
+        <h2>{{ metadata["display_name"] | default: "Test title not found" }}</h2>
+        <p>{{ metadata["description"] | default: "Test description not found" }}</p>
 
         {% if metadata["chart_enabled"] %}
             {% assign chart_id = metadata_code %}
