@@ -23,7 +23,7 @@ module Jekyll
       # get data
       # this is the object where we store found tests
       tests = util.getData "tests"
-      tests_metadata = util.getData "tests_metadata"
+      # tests_metadata = util.getData "tests_metadata"
 
       # get unique list of performance tests
       test_names = util.getTestNames(results_col)
