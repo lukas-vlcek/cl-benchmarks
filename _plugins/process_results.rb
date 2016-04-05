@@ -1,55 +1,36 @@
-# require 'pathname'
-
 module Jekyll
 
-  RESULTS_FOLDER = "results"
+  RESULTS_URL_PATTERN  = "results"
+  AGGREGATIONS_PATTERN = "aggregations"
 
   class ResultsGenerator < Generator
     safe true
     # priority :low
 
     def generate(site)
-      # Jekyll.logger.info "\n--------------"
-      # site.collections.each do |name, collection|
-      # end
 
-      testNames = getTestNames(site.collections[RESULTS_FOLDER])
+      # Instantiate helper classes
+      util = Util.new(site)
+      aggregation = Aggregation.new
 
-      # this is the root where we store tests
-      tests = site.data["tests"]
+      # get collections
+      results_col = util.getCollection RESULTS_URL_PATTERN
+      aggregations_col = util.getCollection AGGREGATIONS_PATTERN
+
+      # get data
+      # this is the object where we store found tests
+      tests = util.getData "tests"
+      tests_metadata = util.getData "tests_metadata"
 
       # get unique list of performance tests
-      testNames.each do |d|
-        test_key = String(d.basename)
-        # Jekyll.logger.info "- #{test_key}"
-        tests[test_key] = {}
-        tests[test_key]["code"] = test_key # we must make sure key is string, or Liquid will screw up...
+      test_names = util.getTestNames(results_col)
+      test_names.each do |t|
+        test_name = String(t.basename)
+        tests[test_name] = {}
+        tests[test_name]["code"] = test_name # we must make sure key is string, or Liquid will screw up...
+        aggregation.calculate(t)
       end
 
-      Jekyll.logger.info "--------"
-      Jekyll.logger.info "tests: #{tests}"
-      # for k in site.data["tests"].keys
-      #   Jekyll.logger.info "- #{tests[k]}"
-      # end
-
-      tests_metadata = site.data["tests_metadata"]
-      Jekyll.logger.info "tests_metadata: #{tests_metadata}"
-      Jekyll.logger.info "--------"
-    end
-
-    ##
-    # Extract distinct names of tests from raw results data.
-    # @results is Jekyll collection where raw results are stored.
-    # @return array of Pathnames each representing the root folder for individual distinct tests
-    #
-    def getTestNames(results)
-      first_file = results.files.first.path
-      path = Pathname.new(first_file).dirname
-
-      while !(String(path).end_with? RESULTS_FOLDER || path.root?) do
-        path = path.parent
-      end
-      return path.children
     end
 
   end
