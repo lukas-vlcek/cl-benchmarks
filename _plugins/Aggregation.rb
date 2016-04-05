@@ -1,8 +1,14 @@
 class Aggregation
 
   def calculate(path)
-    Jekyll.logger.info "Computing aggregation: #{path}"
-    # TODO
+
+    tet_name = path.basename
+    content = {}
+    content["code"] = tet_name
+
+    Jekyll.logger.info "Generating data for #{tet_name} done"
+
+    content
   end
 
 end
