@@ -14,7 +14,11 @@ layout: main
         <p>{{ metadata["description"] }}</p>
 
         {% if metadata["chart_enabled"] %}
-            <div id="chart" class="chart"></div>
+            {% assign chart_id = metadata_code %}
+            <div id="chart-{{ chart_id }}" class="chart"></div>
+            <script>
+                app.generateGraph("#chart-{{ chart_id }}");
+            </script>
         {% endif %}
 
         <ul>
@@ -30,4 +34,3 @@ layout: main
     </p>
 {% endfor %}
 
-<script src="{{ "/javascript/app.js" | prepend: site.baseurl }}" ></script>
