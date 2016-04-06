@@ -5,11 +5,16 @@
 
 var App = function() {
 
-     var thiz = this;
+    var thiz = this;
 
     this.dataClick = function(d, element) {
-        console.log(d, element);
-        window.location.href = 'detail.html';
+        var fragment = [
+                [ 'id=', encodeURI(String(d.id)) ].join(''),
+                [ 'x=', String(d.x.getTime()) ].join('')
+            ].join('&');
+        // console.log(d);
+        // console.log(fragment);
+        window.location.href = [ 'detail.html', fragment ].join('#');
     };
 
     this.generateGraph = function (element_id) {
