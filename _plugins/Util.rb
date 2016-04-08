@@ -33,11 +33,20 @@ class Util
 
   def getCollectionPath(collection)
     first_file = collection.files.first.path
-    path = Pathname.new(first_file).dirname
+    Pathname.new(first_file).dirname
+  end
+
+  ##
+  # Return millis representation of input Time (since epoch).
+  # The number is expected to be similar to JavaScript new Date().getTime()
+  #
+  def toMillis(time)
+    (time.to_f * 1000).to_i
   end
 
   ##
   # Dump content to file located at #{folder} using #{file_name}.json
+  # @return Time after the file has been closed
   #
   def dumpFile(folder, file_name, content)
     final_path = "#{folder}#{File::SEPARATOR}#{file_name}.json"
@@ -52,7 +61,7 @@ class Util
       file.close unless file.nil?
       Jekyll.logger.info "File #{final_path} has been flushed"
     end
-
+    return Time.now
   end
 
 end

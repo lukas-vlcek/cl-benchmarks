@@ -18,3 +18,5 @@ collections:
     output: true
   aggregations:
     output: true
+  config:
+    output: true

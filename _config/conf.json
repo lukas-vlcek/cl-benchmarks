@@ -1,0 +1,6 @@
+{
+  "collections": {
+    "aggregations": "aggregations",
+    "results": "results"
+  }
+}

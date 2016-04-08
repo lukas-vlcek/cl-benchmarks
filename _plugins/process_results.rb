@@ -35,8 +35,9 @@ module Jekyll
           tests[test_name] = {}
           tests[test_name]["code"] = test_name # we must make sure key is string, or Liquid will screw up...
           content = JSON.pretty_generate(aggregation.calculate(t))
+          now = util.dumpFile(aggregation_folder, test_name, content)
           Jekyll.logger.debug content
-          util.dumpFile(aggregation_folder, test_name, content)
+          Jekyll.logger.info "Finished at #{now}; #{util.toMillis(now)} ms"
         else
           Jekyll.logger.info "Skipping result data for test #{test_name}, no metadata found..."
         end
