@@ -23,8 +23,8 @@ var App = function() {
             data: {
                 // x: 'date',
                 xs: {
-                    'CPU': 'x1',
-                    'IO': 'x2'
+                    'Metric': 'x1',
+                    'Time': 'x2'
                 },
                 xFormat: '%Y-%m-%dT%H:%M:%SZ',
                 onclick: thiz.dataClick,
@@ -46,8 +46,8 @@ var App = function() {
                         '2016-01-06T00:00:00Z',
                         '2016-01-07T10:00:00Z'
                     ],
-                    ['CPU', 30, 200, 100, 400, 150, 250],
-                    ['IO', 50, 20, 10, 40, 15, 25]
+                    ['Metric', 30, 200, 100, 400, 150, 250],
+                    ['Time', 50, 20, 10, 40, 15, 25]
                 ]
             },
             axis: {
