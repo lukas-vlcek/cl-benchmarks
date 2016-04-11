@@ -1,3 +1,16 @@
+# Benchmarks
+
+Common Logging performance tests and benchmarks visualization.
+
+Live preview: <http://lukas-vlcek.github.io/cl-benchmarks/>
+
+## How it is implemented
+
+A small fraction of code is based on Jekyll and its life-cycle, the
+rest is dynamic DOM using React and D3 charting.
+
+### Development
+
 Use the following command for local development:
 
 ````
