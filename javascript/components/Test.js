@@ -19,7 +19,7 @@ var TestComponent = React.createClass({
         ];
         if (this.props.chart_enabled) {
             elements.push(
-                React.createElement("div", { id: "chart-" + this.props.code, className: "chart" })
+                React.createElement("div", { id: app.constant.CHART_PREFIX + this.props.code, className: "chart" })
             )
         }
         elements.push(

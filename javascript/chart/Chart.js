@@ -2,13 +2,21 @@ function Chart() {
 
     /**
      *
-     * @param {HTMLElement} element
+     * @param {HTMLElement} node
      * @param {String} fileURL
      * @param {function} onClick
      */
-    this.generateChart = function(element, fileURL, onClick) {
-        var chart = c3.generate({
-            bindto: element,
+    this.generateChart = function(node, fileURL, onClick) {
+        var test_id = node.getAttribute("id");
+        if (test_id.startsWith(app.constant.CHART_PREFIX)) {
+            test_id = test_id.substr(app.constant.CHART_PREFIX.length);
+        }
+        // console.log(element_id);
+        var clickHandler = function(d, element) {
+            onClick(d, test_id)
+        };
+        return c3.generate({
+            bindto: node,
             data: {
                 // x: 'date',
                 xs: {
@@ -16,7 +24,7 @@ function Chart() {
                     'Time': 'x2'
                 },
                 xFormat: '%Y-%m-%dT%H:%M:%SZ',
-                onclick: onClick,
+                onclick: clickHandler,
                 // json: []
                 columns: [
                     ['x1',
@@ -48,7 +56,6 @@ function Chart() {
                 }
             }
         });
-        return chart;
     }
 }
 // Make our chart globally available
