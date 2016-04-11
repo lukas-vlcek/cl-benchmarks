@@ -43,7 +43,7 @@ var AppComponent = React.createClass({
         for (var i in this.state.tests_metadata) {
             var test = this.state.tests_metadata[i];
             if (test.chart_enabled) {
-                var element_id = "chart-" + test.code;
+                var element_id = app.constant.CHART_PREFIX + test.code;
                 var element = document.getElementById(element_id);
                 var chart = _chart.generateChart(element, "", this.props.chartClickHandler);
             }
