@@ -2,54 +2,11 @@
 layout: main
 ---
 
-<script src="{{ "/javascript/app.js" | prepend: site.baseurl }}" ></script>
 
 <h1>Pull-Request and Nightly Master Benchmarks</h1>
 
 <small>Last generated: <b>{{ site.time | date_to_rfc822 }}</b></small>
 
-{% for test_key in site.data["tests"] %}
-    {% assign metadata_code = test_key[1]["code"] %}
-    {% assign metadata = site.data["tests_metadata"][metadata_code] %}
-    <p>
-        <h2 class="test_header">{{ metadata["display_name"] | default: "Test title not found" }}</h2>
-        <p>{{ metadata["description"] | default: "Test description not found" }}</p>
-
-        {% if metadata["chart_enabled"] %}
-            {% assign chart_id = metadata_code %}
-            <div id="chart-{{ chart_id }}" class="chart"></div>
-            <script>
-                app.generateGraph("#chart-{{ chart_id }}");
-            </script>
-        {% endif %}
-
-        <small>
-            <table>
-                <thead>
-                <tr>
-                    <th colspan="2">Sources</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% if metadata["chart_enabled"] %}
-                <tr>
-                    <td>Aggregated data</td>
-                    <td>
-                        <a href="{{ "/aggregations" | prepend: site.baseurl }}/{{metadata_code}}.json">{{ metadata_code }}.json</a>
-                    </td>
-                </tr>
-                {% endif %}
-                {% if metadata["source_url"] %}
-                <tr>
-                    <td>Test script</td>
-                    <td>
-                        <a href="{{ metadata["source_url"] }}">{{ metadata["source_url"] }}</a>
-                    </td>
-                </tr>
-                {% endif %}
-                </tbody>
-            </table>
-        </small>
-    </p>
-{% endfor %}
+<div id="dynamic"></div>
+<script src="{{ "/javascript/app.js" | prepend: site.baseurl }}" ></script>
 

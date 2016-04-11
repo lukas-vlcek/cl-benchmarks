@@ -3,62 +3,22 @@
  * @author Lukas Vlcek lvlcek@redhat.com
  */
 
-var App = function() {
+function App() {
 
-    var thiz = this;
-
-    this.dataClick = function(d, element) {
+    var chartClickHandler = function(d, element) {
         var fragment = [
-                [ 'id=', encodeURI(String(d.id)) ].join(''),
-                [ 'x=', String(d.x.getTime()) ].join('')
-            ].join('&');
+            [ 'id=', encodeURI(String(d.id)) ].join(''),
+            [ 'x=', String(d.x.getTime()) ].join('')
+        ].join('&');
         // console.log(d);
         // console.log(fragment);
         window.location.href = [ 'detail.html', fragment ].join('#');
     };
 
-    this.generateGraph = function (element_id) {
-        var chart = c3.generate({
-            bindto: element_id,
-            data: {
-                // x: 'date',
-                xs: {
-                    'Metric': 'x1',
-                    'Time': 'x2'
-                },
-                xFormat: '%Y-%m-%dT%H:%M:%SZ',
-                onclick: thiz.dataClick,
-                // json: []
-                columns: [
-                    ['x1',
-                        '2016-01-01T19:15:28Z',
-                        '2016-01-02T19:15:28Z',
-                        '2016-01-03T19:15:28Z',
-                        '2016-01-04T19:15:28Z',
-                        '2016-01-05T19:15:28Z',
-                        '2016-01-06T19:15:28Z'
-                    ],
-                    ['x2',
-                        '2016-01-02T00:00:00Z',
-                        '2016-01-03T10:00:00Z',
-                        '2016-01-04T20:00:00Z',
-                        '2016-01-05T10:00:00Z',
-                        '2016-01-06T00:00:00Z',
-                        '2016-01-07T10:00:00Z'
-                    ],
-                    ['Metric', 30, 200, 100, 400, 150, 250],
-                    ['Time', 50, 20, 10, 40, 15, 25]
-                ]
-            },
-            axis: {
-                x: {
-                    type: 'timeseries',
-                    tick: {
-                        format: '%Y-%m-%d'
-                    }
-                }
-            }
-        });
+    ReactDOM.render(
+        React.createElement(AppComponent, { chartClickHandler: chartClickHandler }),
+        document.getElementById("dynamic")
+    );
 
         /*
         // Loading data this way seems to break tooltip behaviour.
@@ -98,8 +58,7 @@ var App = function() {
             console.log('load IO...', chart);
         }, 1500);
         */
-    }
-};
+}
 
 app = new App();
 /*
