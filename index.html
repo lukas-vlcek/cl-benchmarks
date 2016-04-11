@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="/cl-benchmarks/stylesheets/styles.css">
     <link rel="stylesheet" href="/cl-benchmarks/stylesheets/github-light.css">
-    <link rel="stylesheet" href="/cl-benchmarks/stylesheets/charts.css">
+    <link rel="stylesheet" href="/cl-benchmarks/stylesheets/app.css">
     <link rel="canonical" href="http://lukas-vlcek.github.io/cl-benchmarks/">
     <link rel="alternate" type="application/rss+xml" title="CL Benchmarks" href="http://lukas-vlcek.github.io/cl-benchmarks/feed.xml">
 
@@ -21,6 +21,21 @@
     <link href="/cl-benchmarks/javascript/vendor/c3/c3.min.css" rel="stylesheet" type="text/css">
     <script src="/cl-benchmarks/javascript/vendor/d3/d3.min.js" ></script>
     <script src="/cl-benchmarks/javascript/vendor/c3/c3.min.js" ></script>
+
+    <!-- Minimalistic AJAX library -->
+    <script src="/cl-benchmarks/javascript/vendor/fetch/fetch.js" ></script>
+
+    <!-- React -->
+    <script src="/cl-benchmarks/javascript/vendor/react/react.js"></script>
+    <script src="/cl-benchmarks/javascript/vendor/react/react-dom.js"></script>
+
+    <!-- Custom charts -->
+    <script src="/cl-benchmarks/javascript/chart/Chart.js"></script>
+
+    <!-- React components -->
+    <script src="/cl-benchmarks/javascript/components/Sources.js"></script>
+    <script src="/cl-benchmarks/javascript/components/Test.js"></script>
+    <script src="/cl-benchmarks/javascript/components/App.js"></script>
 
 </head>
 
@@ -30,63 +45,12 @@
 <div class="page-content">
     <div class="wrapper">
 
-        <script src="/cl-benchmarks/javascript/app.js" ></script>
+        <h1>Pull-Request and Nightly Master Benchmarks</h1>
 
-<h1>Pull-Request and Nightly Master Benchmarks</h1>
+<small>Last generated: <b>Mon, 11 Apr 2016 16:12:06 +0200</b></small>
 
-<small>Last generated: <b>Thu, 07 Apr 2016 15:09:06 +0200</b></small>
-
-
-    
-    
-    <p>
-        <h2>Dummy test</h2>
-        <p>This is dummy test and will be removed in the future...</p>
-
-        
-            
-            <div id="chart-dummy-perf-test" class="chart"></div>
-            <script>
-                app.generateGraph("#chart-dummy-perf-test");
-            </script>
-        
-
-        <ul>
-        
-            <li>Aggregated data source: <a href="/cl-benchmarks/aggregations/dummy-perf-test.json">dummy-perf-test.json</a></li>
-        
-        
-        </ul>
-
-        <hr>
-    </p>
-
-    
-    
-    <p>
-        <h2>Performance test operations</h2>
-        <p>This tests for raw .operations index performance - write a bunch of messages to the system log and see how long it takes all of them to show up in ES.</p>
-
-        
-            
-            <div id="chart-perf-test-operations" class="chart"></div>
-            <script>
-                app.generateGraph("#chart-perf-test-operations");
-            </script>
-        
-
-        <ul>
-        
-            <li>Aggregated data source: <a href="/cl-benchmarks/aggregations/perf-test-operations.json">perf-test-operations.json</a></li>
-        
-        
-            <li>Test script: <a href="https://github.com/lukas-vlcek/origin-aggregated-logging/blob/perf-test/hack/testing/perf-test-operations.sh">https://github.com/lukas-vlcek/origin-aggregated-logging/blob/perf-test/hack/testing/perf-test-operations.sh</a></li>
-        
-        </ul>
-
-        <hr>
-    </p>
-
+<div id="dynamic"></div>
+<script src="/cl-benchmarks/javascript/app.js" ></script>
 
 
 

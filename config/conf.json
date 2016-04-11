@@ -1,0 +1,22 @@
+{
+  "collections": {
+    "aggregations": "aggregations",
+    "results": "results"
+  },
+  "tests_metadata": [
+    {
+      "code": "perf-test-operations",
+      "display_name": "Performance test operations",
+      "description": "This tests for raw .operations index performance - write a bunch of messages to the system log and see how long it takes all of them to show up in ES.",
+      "chart_enabled": true,
+      "source_url": "https://github.com/lukas-vlcek/origin-aggregated-logging/blob/perf-test/hack/testing/perf-test-operations.sh"
+    },
+    {
+      "code": "dummy-perf-test",
+      "display_name": "Dummy test",
+      "description": "This is dummy test and will be removed in the future...",
+      "chart_enabled": false,
+      "source_url": null
+    }
+  ]
+}
