@@ -4,18 +4,17 @@ var AppComponent = React.createClass({
         return {};
     },
     componentDidMount: function componentDidMount() {
-        var thiz = this;
         var request = fetch('config/conf.json');
         request
             .then(function(response) {
                 return response.json();
             })
-            .then(function(data) {
-                thiz.setState(data);
-            })
-            .catch(function(ex) {
-                thiz.setState({ "error": ex });
-            });
+            .then((function(data) {
+                this.setState(data);
+            }).bind(this))
+            .catch((function(ex) {
+                this.setState({ "error": ex });
+            }).bind());
     },
     render: function() {
         var elements = [];
@@ -46,7 +45,7 @@ var AppComponent = React.createClass({
             if (test.chart_enabled) {
                 var element_id = "chart-" + test.code;
                 var element = document.getElementById(element_id);
-                var chart = document.chart.generateChart(element, "", this.props.chartClickHandler);
+                var chart = _chart.generateChart(element, "", this.props.chartClickHandler);
             }
         }
     }

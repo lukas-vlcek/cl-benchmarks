@@ -51,4 +51,5 @@ function Chart() {
         return chart;
     }
 }
-document.chart = new Chart();
+// Make our chart globally available
+window._chart = new Chart();
