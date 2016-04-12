@@ -41,7 +41,7 @@ function App() {
     };
 
     // Configure and start router
-    page.base('/#');
+    page.base( (app_baseurl.length > 0 ? '/' + app_baseurl : '') + '/#');
     page('/:view/:one?/:two?/:three?/:four?/:five?', routeChanged);
     page('/*', routeChanged);
     page();
