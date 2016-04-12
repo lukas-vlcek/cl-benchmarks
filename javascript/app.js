@@ -3,6 +3,13 @@
  * @author Lukas Vlcek lvlcek@redhat.com
  */
 
+// Constants used cross whole application
+window.AppConstant = {
+    CHART_PREFIX: "chart-",
+    VIEW_MASTER: "master",
+    VIEW_DETAIL: "detail"
+};
+
 function App() {
 
     // Polyfill
@@ -14,28 +21,30 @@ function App() {
         };
     }
 
-    // Constants used cross whole application
-    this.constant = {
-        CHART_PREFIX: "chart-"
-    };
-
     // Temporary workaround for chart click handler
     var chartClickHandler = function(d, test_id) {
-        var fragment = [
-            [ 'test_id=', encodeURI(String(test_id)) ].join(''),
-            [ 'id=', encodeURI(String(d.id)) ].join(''),
-            [ 'x=', String(d.x.getTime()) ].join('')
-        ].join('&');
-        // console.log(d);
-        // console.log(fragment);
-        window.location.href = [ 'detail.html', fragment ].join('#');
+        page([ '/detail', test_id, d.id, d.x.getTime() ].join('/'));
     };
 
     // Render the application using React
-    ReactDOM.render(
-        React.createElement(AppComponent, { chartClickHandler: chartClickHandler }),
+    var reactInstance =ReactDOM.render(
+        React.createElement(AppComponent, {
+            chartClickHandler : chartClickHandler
+        }),
         document.getElementById("dynamic")
     );
+
+    // Whenever router is updated we set new state to top level React component
+    window.routeChanged = function(ctx, next) {
+        // console.log('routeChanged: ctx', ctx);
+        reactInstance.setState(ctx);
+    };
+
+    // Configure and start router
+    page.base('/#');
+    page('/:view/:one?/:two?/:three?/:four?/:five?', routeChanged);
+    page('/*', routeChanged);
+    page();
 }
 
 // Start the application
