@@ -41,7 +41,7 @@ function App() {
     };
 
     // Configure and start router
-    var base = (app_baseurl.length > 0 ? '/' + app_baseurl : '') + '/#';
+    var base = app_baseurl + '/#';
     console.log('setting page base:', base);
     page.base(base);
     page('/:view/:one?/:two?/:three?/:four?/:five?', routeChanged);
