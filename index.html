@@ -8,5 +8,8 @@ layout: main
 <small>Last generated: <b>{{ site.time | date_to_rfc822 }}</b></small>
 
 <div id="dynamic"></div>
+<script >
+    window.app_baseurl = "{{ site.baseurl }}";
+</script>
 <script src="{{ "/javascript/app.js" | prepend: site.baseurl }}" ></script>
 
