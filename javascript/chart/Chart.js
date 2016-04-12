@@ -8,8 +8,8 @@ function Chart() {
      */
     this.generateChart = function(node, fileURL, onClick) {
         var test_id = node.getAttribute("id");
-        if (test_id.startsWith(app.constant.CHART_PREFIX)) {
-            test_id = test_id.substr(app.constant.CHART_PREFIX.length);
+        if (test_id.startsWith(AppConstant.CHART_PREFIX)) {
+            test_id = test_id.substr(AppConstant.CHART_PREFIX.length);
         }
         // console.log(element_id);
         var clickHandler = function(d, element) {
