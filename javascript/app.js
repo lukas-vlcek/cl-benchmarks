@@ -23,7 +23,7 @@ function App() {
 
     // Temporary workaround for chart click handler
     var chartClickHandler = function(d, test_id) {
-        page([ '/detail', test_id, d.id, d.x.getTime() ].join('/'));
+        page([ '/detail', test_id, 'master', d.id, d.x.getTime() ].join('/'));
     };
 
     // Render the application using React
@@ -42,8 +42,9 @@ function App() {
 
     // Configure and start router
     var base = app_baseurl + '/#';
-    console.log('setting page base:', base);
+    // console.log('setting page base:', base);
     page.base(base);
+    page('/detail/:test_id?/:branch?/:series?/:timestamp?', routeChanged);
     page('/:view/:one?/:two?/:three?/:four?/:five?', routeChanged);
     page('/*', routeChanged);
     page();
