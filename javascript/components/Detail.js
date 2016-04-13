@@ -19,7 +19,7 @@ var DetailComponent = React.createClass({
                 React.createElement("span", null, " / "),
                 React.createElement("span", null, this.props.series),
                 React.createElement("span", null, " / "),
-                React.createElement("span", null, this.props.timestamp)
+                React.createElement("span", null, new Date(parseInt(this.props.timestamp)).toUTCString())
             ])
         ]);
     }
