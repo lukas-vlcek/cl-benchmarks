@@ -4,6 +4,10 @@
     background-color: #f0f0f0;
 }
 
+a {
+    cursor: pointer;
+}
+
 h2 {
     margin-top: 40px;
 }
