@@ -58,7 +58,67 @@ function TimeSeriesChart() {
         var chartYAxis = svg.append("g")
             .attr("class", "y axis")
             .call(yAxis);
-        
+
+        /**
+         * Update chart for every series or only for single series_id
+         * @param {string?} series_id
+         */
+        var chartUpdate = function(series_id) {
+            var data = null;
+            if (series_id) {
+                data = series[series_id];
+            }
+            if (data) {
+                chartUpdateForData(series_id, data);
+            } else {
+                for (var key in series) {
+                    if (series.hasOwnProperty(key)) {
+                        chartUpdateForData(key, series[key]);
+                    }
+                }
+            }
+        };
+
+        /**
+         *
+         * @param {string} series_id
+         * @param {array} data
+         */
+        var chartUpdateForData = function(series_id, data) {
+            console.log('xScale domain', xScale.domain());
+            console.log('yScale domain', yScale.domain());
+
+            var extentsDatetime = [];
+            var extentsValue = [];
+            for (var key in series) {
+                if (series.hasOwnProperty(key)) {
+                    var ser = series[key];
+                    extentsDatetime.push(d3.extent(ser, accessDatetime));
+                    extentsValue.push(d3.extent(ser, accessValue));
+                }
+            }
+            var min_datetime = d3.min(extentsDatetime, function(d){ return d[0]});
+            var max_datetime = d3.max(extentsDatetime, function(d){ return d[1]});
+            var min_value = d3.min(extentsValue, function(d){ return d[0]});
+            var max_value = d3.max(extentsValue, function(d){ return d[1]});
+
+            console.log('min-max', min_datetime, max_datetime);
+
+            // xScale.domain(d3.extent(data, accessDatetime));
+            // yScale.domain(d3.extent(data, accessValue));
+            xScale.domain([min_datetime, max_datetime]);
+            yScale.domain([min_value, max_value]);
+
+            chartXAxis.call(xAxis);
+            chartYAxis.call(yAxis);
+
+            // console.log(data);
+            svg.append("path")
+                .datum(data)
+                .attr("class", "line " + series_id)
+                .attr("d", line);
+        };
+
         return {
 
             //
@@ -68,16 +128,14 @@ function TimeSeriesChart() {
                     console.warn('Replacing series [' + series_id + '] with a new data!');
                 }
                 series[series_id] = data;
-
-                xScale.domain(d3.extent(data, accessDatetime));
-                yScale.domain(d3.extent(data, accessValue));
-                // console.log(xScale.domain());
+                chartUpdate(series_id);
 
                 // svg.append("g")
                 //     .attr("class", "x axis")
                 //     .attr("transform", "translate(0," + height + ")")
                 //     .call(xAxis);
-                chartXAxis.call(xAxis);
+
+                // chartXAxis.call(xAxis);
 
                 // svg.append("g")
                 //     .attr("class", "y axis")
@@ -88,19 +146,12 @@ function TimeSeriesChart() {
                     // .attr("dy", ".71em")
                     // .style("text-anchor", "end")
                     // .text("Temperature (ºF)");
-                chartYAxis.call(yAxis);
+                // chartYAxis.call(yAxis);
 
                 // var city = svg.selectAll(".series")
                 //     .data(data)
                 //     .enter().append("g")
                 //     .attr("class", "series");
-
-                console.log(data);
-                svg.append("path")
-                    .datum(data)
-                    .attr("class", "line " + series_id)
-                    .attr("d", line);
-
             },
 
             //
