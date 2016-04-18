@@ -2,12 +2,14 @@ function TimeSeriesChart() {
 
     this.create = function(element) {
 
+        var series = {};
 
         var margin = {top: 20, right: 20, bottom: 30, left: 50},
-            // width = 960 - margin.left - margin.right,
             width = 900 - margin.left - margin.right,
-            // height = 500 - margin.top - margin.bottom;
             height = 300 - margin.top - margin.bottom;
+
+        var accessDatetime = function(d) { return d.datetime; };
+        var accessValue = function(d) { return d.value; };
 
         var xScale = d3.time.scale.utc()
             .range([0, width]);
@@ -48,12 +50,12 @@ function TimeSeriesChart() {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        var xxx = svg.append("g")
+        var chartXAxis = svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis);
 
-        var yyy = svg.append("g")
+        var chartYAxis = svg.append("g")
             .attr("class", "y axis")
             .call(yAxis);
         
@@ -62,15 +64,20 @@ function TimeSeriesChart() {
             //
             addSeries: function(series_id, label, data) {
 
-                xScale.domain(d3.extent(data, function(d) { return d.datetime; }));
-                yScale.domain(d3.extent(data, function(d) { return d.value; }));
+                if (series[series_id]) {
+                    console.warn('Replacing series [' + series_id + '] with a new data!');
+                }
+                series[series_id] = data;
+
+                xScale.domain(d3.extent(data, accessDatetime));
+                yScale.domain(d3.extent(data, accessValue));
                 // console.log(xScale.domain());
 
                 // svg.append("g")
                 //     .attr("class", "x axis")
                 //     .attr("transform", "translate(0," + height + ")")
                 //     .call(xAxis);
-                xxx.call(xAxis);
+                chartXAxis.call(xAxis);
 
                 // svg.append("g")
                 //     .attr("class", "y axis")
@@ -81,7 +88,7 @@ function TimeSeriesChart() {
                     // .attr("dy", ".71em")
                     // .style("text-anchor", "end")
                     // .text("Temperature (ºF)");
-                yyy.call(yAxis);
+                chartYAxis.call(yAxis);
 
                 // var city = svg.selectAll(".series")
                 //     .data(data)
