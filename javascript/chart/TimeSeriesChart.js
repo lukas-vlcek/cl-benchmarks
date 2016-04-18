@@ -96,8 +96,8 @@ function TimeSeriesChart() {
             yScale.domain([min_value, max_value]);
 
             // update chart
-            chartXAxis.call(xAxis);
-            chartYAxis.call(yAxis);
+            chartXAxis.transition().duration(500).call(xAxis);
+            chartYAxis.transition().duration(500).call(yAxis);
         };
 
         var updateDate = function() {
