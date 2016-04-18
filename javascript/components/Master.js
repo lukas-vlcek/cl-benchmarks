@@ -50,7 +50,7 @@ var MasterComponent = React.createClass({
                 var chart = _chart.generateChart(element, "", this.props.chartClickHandler);
                 var x_chart = _TimeSeriesChart.create(x_element);
 
-                console.log(x_element);
+                // console.log(x_element);
 
                 x_chart.addSeries("series_id1", "Label1", [
                     { datetime: 1461121928625, value: 10 },
@@ -59,12 +59,15 @@ var MasterComponent = React.createClass({
                     { datetime: 1461924932625, value: 30 }
                 ]);
 
-                x_chart.addSeries("series_id2", "Label2", [
-                    { datetime: 1461253928625, value: 20 },
-                    { datetime: 1461354929625, value: 10 },
-                    { datetime: 1461655930625, value: 35 },
-                    { datetime: 1461956932625, value: 20 }
-                ]);
+                setTimeout(
+                    function() {
+                        x_chart.addSeries("series_id2", "Label2", [
+                            {datetime: 1461253928625, value: -5},
+                            {datetime: 1461354929625, value: 15},
+                            {datetime: 1461655930625, value: 55},
+                            {datetime: 1461956932625, value: 20}
+                        ]);
+                    }, 2000);
             }
         }
     }

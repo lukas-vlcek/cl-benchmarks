@@ -30,6 +30,11 @@ function TimeSeriesChart() {
             .x(function(d) { return xScale(d.datetime); })
             .y(function(d) { return yScale(d.value); });
 
+        var lineX =  d3.svg.line()
+            .interpolate("line")
+            .x(function(d) { return xScale(d.datetime); })
+            .y(function(d) { return yScale.range()[0]; });
+
         // create chart and bind to element
         // var svg = d3.select(element).append("svg")
         //         .attr("width", width + margin.left + margin.right)
@@ -60,34 +65,16 @@ function TimeSeriesChart() {
             .call(yAxis);
 
         /**
-         * Update chart for every series or only for single series_id
-         * @param {string?} series_id
+         * Update chart for all series
          */
-        var chartUpdate = function(series_id) {
-            var data = null;
-            if (series_id) {
-                data = series[series_id];
-            }
-            if (data) {
-                chartUpdateForData(series_id, data);
-            } else {
-                for (var key in series) {
-                    if (series.hasOwnProperty(key)) {
-                        chartUpdateForData(key, series[key]);
-                    }
-                }
-            }
+        var chartUpdate = function() {
+            updateChartAxis();
+            updateDate();
         };
 
-        /**
-         *
-         * @param {string} series_id
-         * @param {array} data
-         */
-        var chartUpdateForData = function(series_id, data) {
-            console.log('xScale domain', xScale.domain());
-            console.log('yScale domain', yScale.domain());
+        var updateChartAxis = function() {
 
+            // calculate extent for each series
             var extentsDatetime = [];
             var extentsValue = [];
             for (var key in series) {
@@ -97,26 +84,44 @@ function TimeSeriesChart() {
                     extentsValue.push(d3.extent(ser, accessValue));
                 }
             }
+
+            // select global min/max from all extents
             var min_datetime = d3.min(extentsDatetime, function(d){ return d[0]});
             var max_datetime = d3.max(extentsDatetime, function(d){ return d[1]});
             var min_value = d3.min(extentsValue, function(d){ return d[0]});
             var max_value = d3.max(extentsValue, function(d){ return d[1]});
 
-            console.log('min-max', min_datetime, max_datetime);
-
-            // xScale.domain(d3.extent(data, accessDatetime));
-            // yScale.domain(d3.extent(data, accessValue));
+            // update chart scales
             xScale.domain([min_datetime, max_datetime]);
             yScale.domain([min_value, max_value]);
 
+            // update chart
             chartXAxis.call(xAxis);
             chartYAxis.call(yAxis);
+        };
 
-            // console.log(data);
-            svg.append("path")
-                .datum(data)
-                .attr("class", "line " + series_id)
-                .attr("d", line);
+        var updateDate = function() {
+
+            var data = [];
+            for (var key in series) {
+                if (series.hasOwnProperty(key)) {
+                    data.push({ key: key, values: series[key] });
+                }
+            }
+
+            var path = svg.selectAll("path").data(data, function(k,i) {
+                return k.key;
+            });
+
+            path.enter().append("path")
+                  // .attr("d", function(d) { return line(d.values) })
+                  .attr("class", function(d) { return "line " + d.key } )
+                  .attr("d", function(d) { return lineX(d.values) });
+
+            path.transition().duration(500)
+                .attr("d", function(d) { return line(d.values) } );
+
+            path.exit().remove();
         };
 
         return {
@@ -128,7 +133,7 @@ function TimeSeriesChart() {
                     console.warn('Replacing series [' + series_id + '] with a new data!');
                 }
                 series[series_id] = data;
-                chartUpdate(series_id);
+                chartUpdate();
 
                 // svg.append("g")
                 //     .attr("class", "x axis")
