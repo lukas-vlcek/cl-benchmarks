@@ -46,7 +46,25 @@ var MasterComponent = React.createClass({
             if (test.chart_enabled) {
                 var element_id = AppConstant.CHART_PREFIX + test.code;
                 var element = document.getElementById(element_id);
+                var x_element = document.getElementById('x_' + element_id);
                 var chart = _chart.generateChart(element, "", this.props.chartClickHandler);
+                var x_chart = _TimeSeriesChart.create(x_element);
+
+                console.log(x_element);
+
+                x_chart.addSeries("series_id1", "Label1", [
+                    { datetime: 1461121928625, value: 10 },
+                    { datetime: 1461322929625, value: 20 },
+                    { datetime: 1461623930625, value: 15 },
+                    { datetime: 1461924932625, value: 30 }
+                ]);
+
+                x_chart.addSeries("series_id2", "Label2", [
+                    { datetime: 1461253928625, value: 20 },
+                    { datetime: 1461354929625, value: 10 },
+                    { datetime: 1461655930625, value: 35 },
+                    { datetime: 1461956932625, value: 20 }
+                ]);
             }
         }
     }
