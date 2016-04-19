@@ -1,3 +1,9 @@
+/**
+ * Time series chart.
+ *
+ * @author Lukas Vlcek (lvlcek@redhat.com)
+ */
+
 function TimeSeriesChart() {
 
     this.create = function(element) {
@@ -102,19 +108,32 @@ function TimeSeriesChart() {
 
         var updateDate = function() {
 
+            var CIRCLE_CLASS = "circle";
             var data = [];
             for (var key in series) {
                 if (series.hasOwnProperty(key)) {
                     data.push({ key: key, values: series[key] });
+
+                    var circle = svg.selectAll("circle." + key).data(series[key]);
+
+                    circle.enter().append("circle")
+                        .attr("class", function() { return CIRCLE_CLASS + " " + key })
+                        .attr("cx", function(d) { return xScale(d.datetime) })
+                        .attr("cy", function() { return yScale.range()[0] })
+                        .attr("r", 2);
+
+                    circle.transition().duration(500)
+                        .attr("cx", function(d) { return xScale(d.datetime) })
+                        .attr("cy", function(d) { return yScale(d.value) });
+
+                    // we have to remove exiting circles later... see below
+                    // circle.exit().remove();
                 }
             }
 
-            var path = svg.selectAll("path").data(data, function(k,i) {
-                return k.key;
-            });
+            var path = svg.selectAll("path").data(data, function(k) { return k.key });
 
             path.enter().append("path")
-                  // .attr("d", function(d) { return line(d.values) })
                   .attr("class", function(d) { return "line " + d.key } )
                   .attr("d", function(d) { return lineX(d.values) });
 
@@ -122,11 +141,30 @@ function TimeSeriesChart() {
                 .attr("d", function(d) { return line(d.values) } );
 
             path.exit().remove();
+
+            // remove exiting circles
+            var found_classes = {};
+            svg.selectAll("circle").each(function() {
+                var classes = d3.select(this).attr("class").split(" ").filter(function(value) { return value != CIRCLE_CLASS });
+                classes.forEach(function(value) { found_classes[value] = true});
+            });
+            d3.keys(found_classes).forEach(function(className) {
+                if (!series.hasOwnProperty(className)) {
+                    // console.log("remove circle elements with", className);
+                    svg.selectAll("circle." + className).remove();
+                }
+            });
         };
 
         return {
 
-            //
+            /**
+             * Add series of data to the chart and update the chart.
+             *
+             * @param {string} series_id
+             * @param {string} label
+             * @param {array.<{ datetime: number, value: number }>} data
+             */
             addSeries: function(series_id, label, data) {
 
                 if (series[series_id]) {
