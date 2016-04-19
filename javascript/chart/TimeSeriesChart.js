@@ -159,6 +159,11 @@ function TimeSeriesChart() {
                 //     .attr("class", "series");
             },
 
+            removeSeries: function(series_id) {
+                delete series[series_id];
+                chartUpdate();
+            },
+
             //
             disableSeries: function(series_id) {
                 console.error("disableSeries method not implemented yet!");
