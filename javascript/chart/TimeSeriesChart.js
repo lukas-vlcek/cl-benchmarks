@@ -118,11 +118,13 @@ function TimeSeriesChart() {
 
                     circle.enter().append("circle")
                         .attr("class", function() { return CIRCLE_CLASS + " " + key })
+                        .style("opacity", 0)
                         .attr("cx", function(d) { return xScale(d.datetime) })
                         .attr("cy", function() { return yScale.range()[0] })
-                        .attr("r", 2);
+                        .attr("r", 2.5);
 
                     circle.transition().duration(500)
+                        .style("opacity", 1)
                         .attr("cx", function(d) { return xScale(d.datetime) })
                         .attr("cy", function(d) { return yScale(d.value) });
 
@@ -135,12 +137,15 @@ function TimeSeriesChart() {
 
             path.enter().append("path")
                   .attr("class", function(d) { return "line " + d.key } )
+                  .style("opacity", 0)
                   .attr("d", function(d) { return lineX(d.values) });
 
             path.transition().duration(500)
-                .attr("d", function(d) { return line(d.values) } );
+                .attr("d", function(d) { return line(d.values) } )
+                .style("opacity", 1);
 
-            path.exit().remove();
+            path.exit().transition().duration(500)
+                .style("opacity", 0).remove();
 
             // remove exiting circles
             var found_classes = {};
@@ -151,7 +156,8 @@ function TimeSeriesChart() {
             d3.keys(found_classes).forEach(function(className) {
                 if (!series.hasOwnProperty(className)) {
                     // console.log("remove circle elements with", className);
-                    svg.selectAll("circle." + className).remove();
+                    svg.selectAll("circle." + className).transition().duration(500)
+                        .style("opacity", 0).remove();
                 }
             });
         };

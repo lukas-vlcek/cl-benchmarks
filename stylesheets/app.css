@@ -45,3 +45,7 @@ h2 {
     stroke: steelblue;
     stroke-width: 1.5px;
 }
+
+.circle {
+    fill: steelblue;
+}
