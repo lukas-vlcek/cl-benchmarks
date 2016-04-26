@@ -67,11 +67,28 @@ var MasterComponent = React.createClass({
                             {datetime: 1461655930625, value: 55},
                             {datetime: 1461956932625, value: 20}
                         ]);
-                    }, 2000);
+                    }, 1000);
 
                 setTimeout(
                     function () {
                         x_chart.removeSeries("series_id1");
+                    }, 2000);
+
+                setTimeout(
+                    function () {
+                        x_chart.removeSeries("series_id2");
+                    }, 3000);
+
+                setTimeout(
+                    function () {
+                        x_chart.addSeries("series_id3", "Label3", [
+                            {datetime: 1461253928625, value: -5},
+                            {datetime: 1461354929625, value: 15},
+                            {datetime: 1461655930625, value: 55},
+                            {datetime: 1461956932625, value: 20},
+                            {datetime: 1462157932625, value: 40},
+                            {datetime: 1462358932625, value: 8}
+                        ]);
                     }, 4000);
             }
         }

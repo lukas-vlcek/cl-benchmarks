@@ -70,6 +70,13 @@ function TimeSeriesChart() {
             .attr("class", "y axis")
             .call(yAxis);
 
+        var voronoi = d3.geom.voronoi()
+            // .clipExtent([[-margin.left, -margin.top], [width + margin.right, height + margin.bottom]]);
+            .clipExtent([[0,0], [width, height ]]);
+
+        var voronoi_paths = svg.append("g").attr("id", "point-paths");
+        var chart_content = svg.append("g").attr("id", "chart-content");
+
         /**
          * Update chart for all series
          */
@@ -114,14 +121,21 @@ function TimeSeriesChart() {
                 if (series.hasOwnProperty(key)) {
                     data.push({ key: key, values: series[key] });
 
-                    var circle = svg.selectAll("circle." + key).data(series[key]);
+                    var vertices = series[key].map(function(item) { return [xScale(item.datetime), yScale(item.value)]});
+
+                    var circle = chart_content.selectAll("circle." + key).data(series[key]);
 
                     circle.enter().append("circle")
                         .attr("class", function() { return CIRCLE_CLASS + " " + key })
                         .style("opacity", 0)
                         .attr("cx", function(d) { return xScale(d.datetime) })
                         .attr("cy", function() { return yScale.range()[0] })
-                        .attr("r", 2.5);
+                        .attr("r", 2.5)
+                        .on({
+                            click: function(d,i) { console.log(d, i, this); },
+                            mouseover: function(d,i) { d3.select(this).attr("r", 4.5); },
+                            mouseout: function(d,i) { d3.select(this).attr("r", 2.5); }
+                        });
 
                     circle.transition().duration(500)
                         .style("opacity", 1)
@@ -133,7 +147,7 @@ function TimeSeriesChart() {
                 }
             }
 
-            var path = svg.selectAll("path").data(data, function(k) { return k.key });
+            var path = chart_content.selectAll("path").data(data, function(k) { return k.key });
 
             path.enter().append("path")
                   .attr("class", function(d) { return "line " + d.key } )
@@ -142,21 +156,37 @@ function TimeSeriesChart() {
 
             path.transition().duration(500)
                 .attr("d", function(d) { return line(d.values) } )
-                .style("opacity", 1);
+                .style("opacity", 1).each("end", function() { // TODO: this needs to be called only once!
+
+                    // console.log("voronoi", vertices);
+
+                    var v = voronoi_paths.selectAll("path").data(voronoi(vertices));
+                    v.enter().append("path")
+                      .attr("class", "voronoi")
+                      // .attr("clip-path", function(d,i) { return "url(#clip-"+i+")"; })
+                      .style("fill", d3.rgb(230, 230, 230))
+                      .style('fill-opacity', 0.4)
+                      .style("stroke", d3.rgb(200,200,200));
+
+                    v.attr("d", function(d) { return "M" + d.join(",") + "Z"; })
+                     .attr("id", function(d,i) { return "path-"+i; });
+
+                    v.exit().remove();
+            });
 
             path.exit().transition().duration(500)
                 .style("opacity", 0).remove();
 
             // remove exiting circles
             var found_classes = {};
-            svg.selectAll("circle").each(function() {
+            chart_content.selectAll("circle").each(function() {
                 var classes = d3.select(this).attr("class").split(" ").filter(function(value) { return value != CIRCLE_CLASS });
                 classes.forEach(function(value) { found_classes[value] = true});
             });
             d3.keys(found_classes).forEach(function(className) {
                 if (!series.hasOwnProperty(className)) {
                     // console.log("remove circle elements with", className);
-                    svg.selectAll("circle." + className).transition().duration(500)
+                    chart_content.selectAll("circle." + className).transition().duration(500)
                         .style("opacity", 0).remove();
                 }
             });
