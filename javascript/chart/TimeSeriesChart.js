@@ -1,6 +1,13 @@
 /**
  * Time series chart.
  *
+ * [WIP] Read more about voronoi:
+ *   - http://bl.ocks.org/mbostock/8033015
+ *   - http://bl.ocks.org/njvack/1405439
+ *   - http://bl.ocks.org/mbostock/4060366
+ *   - https://www.safaribooksonline.com/blog/2014/02/17/building-responsible-visualizations-d3-js/
+ *   - http://blog.webkid.io/responsive-chart-usability-d3/#Add_a_simple_swipe_gesture
+ *
  * @author Lukas Vlcek (lvlcek@redhat.com)
  */
 
